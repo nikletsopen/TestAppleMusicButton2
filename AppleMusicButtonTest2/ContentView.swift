@@ -35,28 +35,19 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct PlayButton: View {
+    var body: some View {
+        Button("") {
+        }
+        .buttonStyle(PlayButtonStyle())
+    }
+}
+
+struct PlayButtonStyle: ButtonStyle {
     enum Constants {
         static let animationDuration = 0.22
     }
     
     @State var isPressed = false
-    
-    var body: some View {
-        Button("") {
-            withAnimation(.linear(duration: Constants.animationDuration)) {
-                isPressed = true
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
-                    isPressed = false
-                }
-            }
-        }
-        .buttonStyle(PlayButtonStyle(isPressed: isPressed))
-    }
-}
-
-struct PlayButtonStyle: ButtonStyle {
-    let isPressed: Bool
     
     func makeBody(configuration: Configuration) -> some View {
         let width = 30.0
@@ -78,6 +69,15 @@ struct PlayButtonStyle: ButtonStyle {
                 .scaledToFit()
                 .frame(width: isPressed ? .zero : width)
                 .opacity(isPressed ? .zero : 1.0)
+        }
+        .onTapGesture {
+            withAnimation(.linear(duration: Constants.animationDuration)) {
+                isPressed = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
+                    isPressed = false
+                }
+            }
         }
         .foregroundColor(.blue)
         .padding(32)
@@ -88,28 +88,19 @@ struct PlayButtonStyle: ButtonStyle {
 }
 
 struct SlowPlayButton: View {
+    var body: some View {
+        Button("") {
+        }
+        .buttonStyle(SlowPlayButtonStyle())
+    }
+}
+
+struct SlowPlayButtonStyle: ButtonStyle {
     enum Constants {
         static let animationDuration = 1.5
     }
     
     @State var isPressed = false
-    
-    var body: some View {
-        Button("") {
-            withAnimation(.linear(duration: Constants.animationDuration)) {
-                isPressed = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
-                    isPressed = false
-                }
-            }
-        }
-        .buttonStyle(SlowPlayButtonStyle(isPressed: isPressed))
-    }
-}
-
-struct SlowPlayButtonStyle: ButtonStyle {
-    let isPressed: Bool
     
     func makeBody(configuration: Configuration) -> some View {
         let width = 30.0
@@ -131,6 +122,15 @@ struct SlowPlayButtonStyle: ButtonStyle {
                 .scaledToFit()
                 .frame(width: isPressed ? .zero : width)
                 .opacity(isPressed ? .zero : 1.0)
+        }
+        .onTapGesture {
+            withAnimation(.linear(duration: Constants.animationDuration)) {
+                isPressed = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
+                    isPressed = false
+                }
+            }
         }
         .foregroundColor(.blue)
         .padding(32)
