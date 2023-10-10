@@ -11,7 +11,19 @@ struct ContentView: View {
     
     var body: some View {
         HStack {
-            PlayButton()
+            VStack {
+                SlowPlayButton()
+                Text("Scale: 0,\nDuration: 1.5")
+                    .foregroundColor(.red)
+
+            }
+            
+            VStack {
+                PlayButton()
+                Text("Scale: 0.86,\nDuration: 0.22")
+                    .foregroundColor(.green)
+            }
+         
         }
     }
 }
@@ -84,15 +96,12 @@ struct SlowPlayButton: View {
     
     var body: some View {
         Button("") {
-            withAnimation(.spring(
-                response: Constants.animationDuration,
-                dampingFraction: 0.55,
-                blendDuration: 0.4)) {
-                    isPressed = true
+            withAnimation(.linear(duration: Constants.animationDuration)) {
+                isPressed = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
+                    isPressed = false
                 }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.animationDuration + 0.05) {
-                isPressed = false
             }
         }
         .buttonStyle(SlowPlayButtonStyle(isPressed: isPressed))
